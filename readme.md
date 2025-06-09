@@ -25,7 +25,7 @@
 3. 职责链建立的合理性要靠客户端来保证，增加了客户端的复杂性，可能会由于职责链的错误设置而导致系统出错，如可能会造成循环调用。  
 
 
-##三、责任链模式的实现
+## 三、责任链模式的实现
 　　通常情况下，可以通过数据链表来实现职责链模式的数据结构。  
 
 　　职责链模式主要包含以下角色。  
@@ -104,19 +104,9 @@ INSERT INTO `t_borrowconfig` VALUES (10, 2, 'borrow', 'parkpoint', 'parkpointBin
 
 ```
 
-这里顺便提一下，使用spring可以自动注入抽象接口的实现类，不用自己手写for循环调用了，比如下面这样的代码：
+这里顺便提一下，使用spring可以自动注入抽象接口的实现类: https://www.cnblogs.com/xfeiyun/p/15654243.html
 
-```
-    public Dispatch handle(ReturnBikeCheckInfo returnBikeCheckInfo) {
-        for (ReturnBikeCheckHandler returnBikeCheckHandler : handlerList) {
-            Dispatch dispatch = returnBikeCheckHandler.handle(returnBikeCheckInfo);
-            if (dispatch != null) {
-                return dispatch;
-            }
-        }
-        return new Dispatch(DispatchType.DISPATCH_NOT_RUTURN.getCode(), null);
-    }
-```
+
 
 
 
