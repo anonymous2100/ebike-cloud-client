@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctgu.dao.BorrowCheckConfigMapper">
+
+	<resultMap id="BaseResultMap" type="com.ctgu.entity.BorrowCheckConfig">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="accountId" jdbcType="INTEGER" property="accountId" />
+		<result column="type" jdbcType="VARCHAR" property="type" />
+		<result column="module" jdbcType="VARCHAR" property="module" />
+		<result column="handlerName" jdbcType="VARCHAR" property="handlerName" />
+		<result column="handlerDesc" jdbcType="VARCHAR" property="handlerDesc" />
+		<result column="orderNum" jdbcType="INTEGER" property="orderNum" />
+		<result column="down" jdbcType="INTEGER" property="down" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="BaseResultMap">
+		select * from `t_borrowcheckconfig`
+	</select>
+	
+	<select id="selectAllByType" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select * from `t_borrowcheckconfig`  
+		where 
+		type=#{type,jdbcType=VARCHAR} order by orderNum asc
+	</select>
+
+</mapper>

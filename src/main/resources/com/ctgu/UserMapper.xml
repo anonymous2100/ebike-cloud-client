@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ctgu.dao.UserDao">
+
+	<!-- 基础字段 -->
+	<sql id="Base_Column_List">
+		userId,accountId,phone,sex,birthDay,email,depositState,depositMoney,money,
+		DATE_FORMAT(joinTime,'%Y-%m-%d %H:%i:%S') as joinTime,
+		DATE_FORMAT(updateTime,'%Y-%m-%d %H:%i:%S') as updateTime,
+		remark,imageUrl,idNO,name,nameAuth,studentAuth
+	</sql>
+
+	<!-- 根据查询 -->
+	<select id="getByAccountIdAndPhone" resultType="User"
+		parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from user where accountId = #{accountId} and phone=#{phone}
+	</select>
+
+	<!-- 根据用户id查询 -->
+	<select id="getByUserId" resultType="User" parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from user where userId=#{userId}
+	</select>
+
+	<select id="getByNO" resultType="User" parameterType="string">
+		select
+		<include refid="Base_Column_List" />
+		from user where idNO=#{idNO}
+	</select>
+
+	<!-- 添加 -->
+	<insert id="insert" parameterType="User">
+		insert into
+		user(accountId,country,phone,sex,birthDay,email,joinTime,updateTime,remark)
+		values
+		(#{accountId},#{country},#{phone},#{sex},#{birthDay},#{email},#{joinTime},#{updateTime},#{remark})
+	</insert>
+
+	<!-- 添加别平台的数据 -->
+	<insert id="insertOther" parameterType="User">
+		insert into
+		user(accountId,phone,depositState,depositMoney,money,joinTime,updateTime,idNO,name,nameAuth,remark)
+		values
+		(#{accountId},#{phone},#{depositState},#{depositMoney},#{money},#{joinTime},#{updateTime},#{idNO},#{name},#{nameAuth},#{remark})
+	</insert>
+
+	<!-- 更新 -->
+	<update id="update" parameterType="User">
+		update user set
+		sex=#{sex},birthDay=#{birthDay},email=#{email},updateTime=#{updateTime}
+		where userId=#{userId}
+	</update>
+
+	<!-- 更新押金状态 -->
+	<update id="updateDeposit" parameterType="map">
+		update user set
+		depositState=#{deposit},updateTime=#{updateTime} where
+		userId=#{userId}
+	</update>
+
+	<!-- 更新账户金额 -->
+	<update id="updateMoney" parameterType="map">
+		update user set
+		money=money+#{money},updateTime=#{updateTime} where userId=#{userId}
+	</update>
+
+	<!-- 更新押金金额 -->
+	<update id="updateDepositMoney" parameterType="map">
+		update user set
+		depositMoney=depositMoney+#{money},updateTime=#{updateTime} where
+		userId=#{userId}
+	</update>
+
+	<!-- 更新实名制信息 -->
+	<update id="updateNameAuth" parameterType="map">
+		update user set
+		idNO=#{idNO},idNO=#{idNO},name=#{name},nameAuth=#{nameAuth},updateTime=#{updateTime}
+		where userId=#{userId}
+	</update>
+
+	<!-- 更新免押到期日期 -->
+	<update id="updateDepositDate" parameterType="map">
+		update user set
+		depositDate=#{depositDate},updateTime=#{updateTime} where
+		userId=#{userId}
+	</update>
+
+	<select id="getByIdNOAndId" resultType="User"
+		parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from user where idNO=#{idNO} and accountId=#{accountId}
+	</select>
+	
+	<!--身份证设置用户性别生日 -->
+	<update id="editSex" parameterType="integer">
+		update user SET
+		sex=substring(idNO, 17, 1)%2, birthday=substring(idNO, 7, 8) where
+		LENGTH(idNO)=18 and userId=#{userId}
+	</update>
+</mapper>
