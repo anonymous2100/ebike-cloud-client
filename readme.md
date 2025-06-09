@@ -50,7 +50,9 @@
 3. 增加每步执行的结果记录用于后续数据统计;
 
 
-使用配置中心的方法可以参考以下代码： https://blog.csdn.net/rongtaoup/article/details/122638812，这里我们选择的是数据库表的配置方式；
+使用配置中心的方法可以参考以下代码： https://blog.csdn.net/rongtaoup/article/details/122638812，  
+
+这里我们选择的是数据库表的配置方式；
 sql语句如下：
 
 ```
